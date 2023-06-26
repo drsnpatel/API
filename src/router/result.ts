@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import Joi from 'joi';
 import Result from '../model/result';
-import '../db'
+import '../db';
+
 
 const studentSchema = Joi.object({
   student_id: Joi.number().required(),
@@ -73,13 +74,7 @@ const updateResult = async (req: Request, res: Response) => {
 
 
    
-    // const student_id = req.params;
-    // // const student_id =  req.body;
-  
-    // //  result for the specific student
-    // const result: Result | null = await Result.findOne({
-    //   where: { student_id } ,
-    // });
+
 
 
 const getResult = async (req: Request, res: Response) => {
