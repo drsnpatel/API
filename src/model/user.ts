@@ -1,18 +1,21 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../db";
+import Result from "./result";
 
-export class User extends Model {
+class User extends Model {
   public id!: number;
+  public student_id!:number;
   public name!: string;
   public email!: string;
   public password!: string;
   public role!: string;
-  static role: string;
   public profilePictureUrl!: string;
-  passwordResetOTP!: number | null;
-  passwordResetOTPExpire!: Date;
-  Results: any;
-  student_id: any;
+  public passwordResetOTP!: number | null;
+  public passwordResetOTPExpire!: Date | null;
+
+  static associate() {
+    User.hasMany(Result, { foreignKey: "student_id", as: "Results" });
+  }
 }
 
 User.init(
@@ -22,21 +25,21 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
+    student_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
-      },
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     role: {
       type: DataTypes.ENUM("admin", "teacher", "student"),
@@ -50,14 +53,18 @@ User.init(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    passwordResetOTPExpire: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   {
     tableName: "users",
     sequelize,
+    modelName: "User",
     timestamps: false,
+
   }
 );
-
-
 
 export default User;

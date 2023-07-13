@@ -9,6 +9,8 @@ import { loginUser,forgotPassword,resetPassword } from './router/login';
 import User from './model/user';
 import {multerConfig, uploadProfilePicture } from './multer/profile';
 import authenticate from './middleware/authentication';
+import sequelize from './db';
+
 
 dotenv.config();
 const port = 3000;
@@ -37,41 +39,19 @@ app.get('/result/:student_id', authenticate, getResult);
 app.post('/user/profile-picture/:userId', multerConfig.single('profilePicture') ,authenticate, uploadProfilePicture);
 
 
-// Assuming you're using Express.js
-app.get('/getresult/:userId', async (req, res) => {
-  const userId = req.params.userId;
 
-  try {
-    const user = await User.findByPk(userId, {
-      include: Result, // Include the associated results
-    });
 
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
 
-    const results = user.Results; // Access the associated results
 
-    // Create the desired JSON output
-    const output = {
-      student: {
-        name: user.name,
-        student_id: user.student_id
-      },
-      results: {} as { [key: string]: number } 
-    };
 
-    for (const result of results) {
-      output.results[result.subject] = result.marks;
-    }
-
-    return res.json(output);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
+// Sync the models with the database
+sequelize.sync({ alter:true })
+  .then(() => {
+    console.log('All models were synchronized successfully.');
+  })
+  .catch((err) => {
+    console.error('Unable to synchronize the models:', err);
+  });
 
 app.listen(port, () => {
   console.log("Server running on port:", port);

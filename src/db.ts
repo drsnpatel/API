@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 
-
 dotenv.config();
 
 const sequelize = new Sequelize(
@@ -17,14 +16,7 @@ const sequelize = new Sequelize(
   }
 );
 
-// Sync the models with the database
-sequelize.sync({ alter:true })
-  .then(() => {
-    console.log('All models were synchronized successfully.');
-  })
-  .catch((err) => {
-    console.error('Unable to synchronize the models:', err);
-  });
+
 
 sequelize
   .authenticate()
