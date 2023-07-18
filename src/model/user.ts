@@ -1,10 +1,9 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../db";
-import Result from "./result";
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../db';
+import Result from './result';
 
 class User extends Model {
   public id!: number;
-  public student_id!:number;
   public name!: string;
   public email!: string;
   public password!: string;
@@ -12,10 +11,6 @@ class User extends Model {
   public profilePictureUrl!: string;
   public passwordResetOTP!: number | null;
   public passwordResetOTPExpire!: Date | null;
-
-  static associate() {
-    User.hasMany(Result, { foreignKey: "student_id", as: "Results" });
-  }
 }
 
 User.init(
@@ -24,10 +19,6 @@ User.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-    },
-    student_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -42,7 +33,7 @@ User.init(
       allowNull: true,
     },
     role: {
-      type: DataTypes.ENUM("admin", "teacher", "student"),
+      type: DataTypes.ENUM('admin', 'teacher', 'student'),
       allowNull: false,
     },
     profilePictureUrl: {
@@ -59,11 +50,10 @@ User.init(
     },
   },
   {
-    tableName: "users",
+    tableName: 'users',
     sequelize,
-    modelName: "User",
+    modelName: 'User',
     timestamps: false,
-
   }
 );
 

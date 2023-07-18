@@ -1,17 +1,14 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../db";
-import User from "./user";
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../db';
+import Semester from './semester';
 
 class Result extends Model {
   public id!: number;
+  public name!: string;
   public student_id!: number;
-  public subjects!: string[];
-  public marks!: number[];
-  public semester!: string;
-
-  static associate() {
-    Result.belongsTo(User, { foreignKey: "student_id", as: "User" });
-  }
+  public result_id!: number;
+  public semester_id!: number;
+  
 }
 
 Result.init(
@@ -22,29 +19,30 @@ Result.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     student_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    semester: {
-      type: DataTypes.STRING,
+    result_id: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
-    subjects: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+    semester_id: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
-    marks: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
-      allowNull: true,
-    },
+
   },
   {
-    tableName:"results",
+    tableName: 'results',
     sequelize,
-    modelName: "Result",
+    modelName: 'Result',
     timestamps: false,
   }
 );
-
+Result.belongsTo(Semester, { foreignKey: 'semester_id', as: 'Semester' });
 export default Result;

@@ -1,0 +1,37 @@
+To connect subject marks with a specific semester, you can modify the `SubjectMarks` model to include a foreign key reference to the `Semester` model. Here's an example of how you can establish the relationship:
+
+1. User Model:
+   - user_id (primary key)
+   - other user-related columns (e.g., name, age, etc.)
+
+2. Semester Model:
+   - semester_id (primary key)
+   - semester_name
+   - other semester-related columns
+
+3. Subject Model:
+   - subject_id (primary key)
+   - subject_name
+   - other subject-related columns
+
+4. Result Model:
+   - result_id (primary key)
+   - user_id (foreign key referencing the user_id in the User model)
+   - semester_id (foreign key referencing the semester_id in the Semester model)
+
+5. SubjectMarks Model:
+   - subjectmarks_id (primary key)
+   - result_id (foreign key referencing the result_id in the Result model)
+   - semester_id (foreign key referencing the semester_id in the Semester model)
+   - subject_id (foreign key referencing the subject_id in the Subject model)
+   - marks
+
+By adding the `semester_id` column to the `SubjectMarks` model and establishing the foreign key relationship with the `Semester` model, you can connect the subject marks with a specific semester.
+
+For example, suppose you have a result with `result_id = 1`, associated with a user and a specific semester (`semester_id = 1`). You can store the marks for each subject in the `SubjectMarks` table as follows:
+
+- subjectmarks_id: 1, result_id: 1, semester_id: 1, subject_id: 1, marks: 90 (for subject_id 1)
+- subjectmarks_id: 2, result_id: 1, semester_id: 1, subject_id: 2, marks: 85 (for subject_id 2)
+- subjectmarks_id: 3, result_id: 1, semester_id: 1, subject_id: 3, marks: 92 (for subject_id 3)
+
+This way, you can associate subject marks with a specific semester by querying the related `SubjectMarks` records based on the `semester_id`.

@@ -3,13 +3,16 @@ import cors from 'cors';
 import './db';
 import * as dotenv from 'dotenv';
 import Result from './model/result';
-import { addResult, updateResult, getResult } from './router/result';
+import { addResult, updateResult, getResult, addSemester } from './router/result';
 import {signup} from './router/signup';
 import { loginUser,forgotPassword,resetPassword } from './router/login';
 import User from './model/user';
 import {multerConfig, uploadProfilePicture } from './multer/profile';
 import authenticate from './middleware/authentication';
 import sequelize from './db';
+
+
+
 
 
 dotenv.config();
@@ -27,6 +30,7 @@ Result.sync();
 
 
 // Set up API routes
+app.post('/semester', authenticate,addSemester);
 app.post('/user/signup', signup);
 app.post('/user/login', loginUser);
 app.post('/result', authenticate, addResult);
